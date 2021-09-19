@@ -1,15 +1,11 @@
-const modalCtn = document.querySelector('.modal-ctn');
-const reviewsCtn = document.querySelector('.reviews-ctn');
-
 const addReviewBtn = document.querySelector('#add-review-btn');
-addReviewBtn.addEventListener('click', () => toggleHiding(modalCtn));
+addReviewBtn.addEventListener('click', toggleModal);
 
 const submitReviewBtn = document.querySelector('#submit-review-btn');
 submitReviewBtn.addEventListener('click', submitReview);
 
 const stars = document.querySelectorAll('.rating-star');
 stars.forEach( star => addStarEvents(star));
-
 let rating;
 
 function addStarEvents (star) {
@@ -40,47 +36,64 @@ function submitReview () {
     document.querySelector('#review-input').value = '';
     const newReview = {'rating':rating,'review':review};
     addReviewToDom(newReview);
-    toggleHiding(modalCtn);
-    stars.forEach(star => star.classList.toggle('fas'));
+    toggleModal();
+    stars.forEach(star => star.classList.remove('fas'));
 }
 
-function toggleHiding (ctn) {
-    ctn.classList.toggle('hidden');
+function toggleModal () {
+    const modalCtn = document.querySelector('.modal-ctn');
+    modalCtn.classList.toggle('hidden');
 }
 
-function addReviewToDom(reviewObj) {
+function createDomReviewCtn () {
+    const reviewCtn = document.createElement('div');
+    reviewCtn.className = 'review-ctn';
+    return reviewCtn;
+}
+
+function createDomStarIcons (reviewObj) {
     const reviewVisualCtn = document.createElement('div');
     reviewVisualCtn.className = ('review-visual-ctn');
 
-   for (let i=1; i<=5; i++) {
-       if (i<=reviewObj.rating) {
-           const starIcon = document.createElement('i');
-           starIcon.className = 'fas';
-           starIcon.classList.add('fa-star');
-           reviewVisualCtn.appendChild(starIcon);
-       } else {
-           const starIcon = document.createElement('i');
-           starIcon.className = 'fal';
-           starIcon.classList.add('fa-star');
-           reviewVisualCtn.appendChild(starIcon);
-       }
-   }
+    for (let i=1; i<=5; i++) {
+        const starIcon = document.createElement('i');
+        if (i<=reviewObj.rating) {
+            starIcon.classList.add('fas');
+        } else if (i>reviewObj.rating) {
+            starIcon.classList.add('fal');
+        }
+        starIcon.classList.add('fa-star');
+        reviewVisualCtn.appendChild(starIcon);
+    }
 
+    return reviewVisualCtn;
+}
+
+function createDomReviewSpan (reviewObj) {
     const reviewSpan = document.createElement('span');
     reviewSpan.textContent = reviewObj.rating;
     reviewSpan.className = 'review-score';
+    return reviewSpan;
+}
 
+function createDomReviewP (reviewObj) {
     const reviewP =  document.createElement('p');
     reviewP.textContent = reviewObj.review;
     reviewP.className = 'review';
+    return reviewP;
+}
 
-    const reviewCtn = document.createElement('div');
-    reviewCtn.className = 'review-ctn';
+function addReviewToDom(reviewObj) {
+    const reviewCtn =  createDomReviewCtn();
+    const reviewVisualCtn = createDomStarIcons(reviewObj);
+    const reviewSpan = createDomReviewSpan(reviewObj);
+    const reviewP = createDomReviewP(reviewObj);
 
     reviewCtn.appendChild(reviewVisualCtn);
     reviewCtn.appendChild(reviewSpan);
     reviewCtn.appendChild(reviewP);
 
+    const reviewsCtn = document.querySelector('.reviews-ctn');
     reviewsCtn.appendChild(reviewCtn);
 }
 

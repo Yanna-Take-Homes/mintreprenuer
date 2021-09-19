@@ -5,6 +5,10 @@
     align-items: center;
 }
 
+i {
+    margin-right: 5px;
+}
+
 #title {
     margin-top: 50px;
 }
@@ -46,18 +50,19 @@
 }
 
 .reviews-ctn {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*justify-content: space-between;*/
 }
 
 .review-ctn {
     display: flex;
-    flex-direction: row;
+    /*flex-direction: row;*/
     align-items: center;
 }
 
 .review-visual-ctn {
+    display: flex;
     color: #fecf6f;
     margin-right: 15px;
 }
