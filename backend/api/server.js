@@ -1,20 +1,10 @@
-const express = require('express');
+const express = require( 'express' );
 const server = express();
-const helmet = require('helmet');
-const cors = require('cors');
+server.use( express.json() );
 
-server.use(express.json());
-server.use(helmet());
-server.use(cors());
+/* routes */
 
-// server.use('*', cors({
-//     origin: ['http://localhost:3000'],
-//    credentials: true,
-// }));
-
-server.get('/api', (res) => {
-    res.status(200).json({message: "API Running!"});
-});
-
+const ping = require( './routes/ping.js' );
+server.use( '/ping', ping );
 
 module.exports = server;
