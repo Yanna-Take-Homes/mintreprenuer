@@ -19,6 +19,6 @@
 
 - application will be running locally on port 3000. 
 - Ping route: http://localhost:3000/api/ping
-- Posts route: http://localhost:3000/api/posts
+- Products route: http://localhost:3000/api/products
 
 ---
