@@ -1,12 +1,12 @@
-const express = require( 'express' );
+const express = require('express');
 const router = express.Router();
 const products = require('../../database/models/products-model.js');
 const db = require('../../database/dbConfig.js');
 
 router.get('/', async (req, res) => {
-    const allPosts = await products.getAll();
+    const allProducts = await products.getAll();
     try {
-        res.status(200).json({allPosts})
+        res.status(200).json({allProducts})
 
     } catch (err) {
         res.status(500).json(err)
@@ -14,13 +14,13 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    let { id, ...newPost } = req.body
+    let { id, ...newProduct } = req.body
     try {
-        const allPosts = await products.insert(newPost);
-        newPost = await db('products').where({title: newPost.title}).first();
+        const allProducts = await products.insert(newProduct);
+        newProduct = await db('products').where({title: newProduct.title}).first();
         res.status(201).json({
-            message: "post created!",
-            newPost, allPosts
+            message: "product created!",
+            newProduct, allProducts
         })
     } catch (err) {
         res.status(500).json(err)
