@@ -34,7 +34,6 @@ getData(urls.reviews).then( res => {
     res["allReviews"].forEach(review => {
         addReviewToDom(review);
         reviewSum += review.rating;
-        reviewCt++;
     });
     calculateReviewAvg()
     createDomStarIconsForAvg(reviewAvg);
@@ -101,21 +100,9 @@ function starClick (activeStar) {
 async function submitReview () {
     const review = document.querySelector('#review-input').value || 'book was fluff';
     const newReview = {"rating": rating, "product_id": 1, "description": review};
-    await sendData(urls.reviews, newReview);
-    addReviewToDom(newReview);
-    reviewCt ++;
-    reviewSum += rating;
-    calculateReviewAvg()
-    toggleModal();
-    document.querySelector('#review-input').value = '';
-    stars.forEach(star => {
-        star.classList.remove('fas');
-        addStarEvents(star);
-    });
-    console.log(reviewAvg);
-    console.log(reviewCt);
-    console.log(reviewSum);
-    avgReview.textContent = reviewAvg;
+    await sendData(urls.reviews, newReview).then( res => {
+        setTimeout(function(){ window.location.reload();}, 1000);
+    })
 }
 
 function toggleModal () {
